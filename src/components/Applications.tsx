@@ -7,8 +7,12 @@ interface Application {
   contact: string;
 }
 
-export default function Applications() {
-  const [applications, setApplications] = useState<Application[]>([]);
+interface ApplicationsProps {
+  applications: Application[];
+  setApplications: React.Dispatch<React.SetStateAction<Application[]>>;
+}
+
+export default function Applications({ applications, setApplications }: ApplicationsProps) {
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -126,24 +130,34 @@ export default function Applications() {
         {applications.length === 0 ? (
           <p className="no-applications">No applications added yet. Click "Add New Application" to get started.</p>
         ) : (
-          <div className="applications-grid">
-            {applications.map(app => (
-              <div key={app.id} className="application-card">
-                <div className="application-header">
-                  <h3>{app.name}</h3>
-                  <button 
-                    className="btn btn-danger btn-small"
-                    onClick={() => handleDelete(app.id)}
-                  >
-                    Delete
-                  </button>
-                </div>
-                <div className="application-content">
-                  <p><strong>Description:</strong> {app.description}</p>
-                  <p><strong>Contact:</strong> {app.contact}</p>
-                </div>
-              </div>
-            ))}
+          <div className="applications-table-container">
+            <table className="applications-table">
+              <thead>
+                <tr>
+                  <th>Application Name</th>
+                  <th>Description</th>
+                  <th>Contact</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {applications.map(app => (
+                  <tr key={app.id} className="application-row">
+                    <td className="app-name">{app.name}</td>
+                    <td className="app-description">{app.description}</td>
+                    <td className="app-contact">{app.contact}</td>
+                    <td className="app-actions">
+                      <button 
+                        className="btn btn-danger btn-small"
+                        onClick={() => handleDelete(app.id)}
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         )}
       </div>

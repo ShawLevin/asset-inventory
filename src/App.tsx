@@ -6,21 +6,29 @@ import Components from './components/Components'
 import Dashboards from './components/Dashboards'
 import './App.css'
 
+interface Application {
+  id: string;
+  name: string;
+  description: string;
+  contact: string;
+}
+
 function App() {
   const [activePage, setActivePage] = useState('applications');
+  const [applications, setApplications] = useState<Application[]>([]);
 
   const renderPage = () => {
     switch (activePage) {
       case 'applications':
-        return <Applications />;
+        return <Applications applications={applications} setApplications={setApplications} />;
       case 'teams':
         return <Teams />;
       case 'components':
-        return <Components />;
+        return <Components applications={applications} />;
       case 'dashboards':
         return <Dashboards />;
       default:
-        return <Applications />;
+        return <Applications applications={applications} setApplications={setApplications} />;
     }
   };
 
